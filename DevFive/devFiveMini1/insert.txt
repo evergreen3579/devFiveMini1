@@ -1,0 +1,65 @@
+import cx_Oracle
+import random
+from datetime import datetime, timedelta
+
+# Oracle 데이터베이스 연결
+dsn = cx_Oracle.makedsn('localhost', 1521, 'xe')
+db = cx_Oracle.connect('scott', 'tiger', dsn=dsn)
+
+# 커서 생성
+cursor = db.cursor()
+
+# 유효한 DEPTNO를 가져오기
+cursor.execute("SELECT DEPTNO FROM DEPT")
+deptnos = [row[0] for row in cursor.fetchall()]
+
+# 랜덤으로 유효한 DEPTNO 선택
+deptno = random.choice(deptnos)
+
+# 랜덤 데이터 생성
+empno = random.randint(1000, 9999)  # 직원 번호를 랜덤으로 생성 (1000~9999)
+sal = random.randint(2000, 5000)  # 급여를 2000부터 5000 사이로 랜덤으로
+comm = random.choice([None, random.randint(500, 1500)])  # 커미션: 없거나 500~1500 사이 랜덤
+mgr = random.randint(7000, 8000)  # 매니저 ID를 7000~8000 사이 랜덤으로
+hiredate = datetime.now() - timedelta(days=random.randint(0, 365))  # 고용 날짜를 랜덤으로 설정
+
+# SQL 쿼리
+insert_query = """
+INSERT INTO EMP (EMPNO, ENAME, JOB, DEPTNO, SAL, COMM, MGR, HIREDATE)
+VALUES (:empno, :ename, :job, :deptno, :sal, :comm, :mgr, :hiredate)
+"""
+
+# 데이터 추가
+data = {
+    'empno': empno,
+    'ename': 'YOUNG',
+    'job': 'MANAGER',
+    'deptno': deptno,
+    'sal': sal,
+    'comm': comm,
+    'mgr': mgr,
+    'hiredate': hiredate
+}
+
+cursor.execute(insert_query, data)
+db.commit()  # 변경 사항 저장
+
+# EMP 테이블에서 데이터 조회
+query = """
+SELECT EMPNO, ENAME, JOB, MGR, TO_CHAR(HIREDATE, 'YY/MM/DD') AS HIREDATE,
+       SAL, COMM, DEPTNO
+FROM EMP
+"""
+
+cursor.execute(query)
+
+# 결과 출력
+print(f"{'EMPNO':<10} {'ENAME':<20} {'JOB':<20} {'MGR':<10} {'HIREDATE':<10} {'SAL':<10} {'COMM':<10} {'DEPTNO':<10}")
+print("-" * 80)
+
+for row in cursor.fetchall():
+    print(f"{row[0]:<10} {row[1]:<20} {row[2]:<20} {row[3]:<10} {row[4]:<10} {row[5]:<10} {row[6]:<10} {row[7]:<10}")
+
+# 커서와 연결 종료
+cursor.close()
+db.close()
