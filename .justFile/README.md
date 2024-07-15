@@ -8,8 +8,10 @@ https://visualstudio.microsoft.com/ko/visual-cpp-build-tools/
 
 [가상환경 구축 코드]
 가상환경생성:python -m venv 가상환경이름
+*python -m venv venv
 
 가상환경시작:가상환경 이름\Scripts\activate
+*venv\Scripts\activate
 
 가상환경종료:deactivate
 

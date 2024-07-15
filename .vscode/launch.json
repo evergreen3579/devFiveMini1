@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Flask on 3000 port",
+            "name": "Python: Flask on 5000 port",
             "type": "python",
             "request": "launch",
             "program": "C:\\Users\\406-2\\Desktop\\DevSec_ROK\\projects\\devFiveMini1\\app.py",  // Flask 애플리케이션 파일의 경로
@@ -15,7 +15,7 @@
                 "run",
                 "--no-debugger",
                 "--port",
-                "3000"
+                "5000"
             ],
             "debugOptions": [
                 "WaitOnAbnormalExit",
@@ -23,10 +23,11 @@
                 "RedirectOutput"
             ],
             "stopAtEntry": true,
-            "url": "http://127.0.0.1:3000",
+            "url": "http://127.0.0.1:5000",
             "webBrowser": "Chrome",
             "console": "integratedTerminal"
         }
     ]
 }
+
 

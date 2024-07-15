@@ -1,21 +1,25 @@
 # db/connector.py
 
-import mysql.connector
+from . import get_db_connection
 
-def get_db_connection():
-    config = {
-        'user': 'root',
-        'password': '1234',
-        'host': 'localhost',
-        'database': 'minr_pro1',
-        'port': '3306',  # MySQL 포트 번호 (기본값은 3306)
-        'raise_on_warnings': True
-    }
-    
+# MySQL 데이터베이스 연결 객체 가져오기
+conn = get_db_connection()
+
+# 데이터베이스 쿼리 실행 함수
+def execute_query(query, params=None):
+    cursor = conn.cursor()
     try:
-        conn = mysql.connector.connect(**config)
-        return conn
+        if params:
+            cursor.execute(query, params)
+        else:
+            cursor.execute(query)
+        
+        conn.commit()  # 쿼리 실행 후 커밋
+        return cursor.fetchall()  # 쿼리 결과 반환
     
     except mysql.connector.Error as e:
-        print(f'Error connecting to MySQL database: {e}')
+        print(f'Error executing query: {e}')
         return None
+    
+    finally:
+        cursor.close()
