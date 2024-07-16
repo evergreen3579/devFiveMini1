@@ -1,7 +1,25 @@
 #공지 페이지
 
-[플라스크 다운로드 코드]
+[Flask 다운로드 코드]
 pip install flask
+
+[Flask SQLAlchemy 다운로드 코드]
+pip install flask_sqlalchemy
+
+[Flask mysql-connector-python 다운도드 코드]
+pip install mysql-connector-python
+
+[Flask pymysql 다운로드 코드] 
+pip install pymysql
+
+[Flask-Bcrypt 라이브러리 다운로드 코드]
+pip install Flask-Bcrypt
+
+[Flask-Login 라이브버리 다운로드 코드]
+pip install Flask-Login
+
+[Flask-MySQLdb 라이브러리 다운로드 코드]
+pip install Flask-MySQLdb
 
 https://visualstudio.microsoft.com/ko/visual-cpp-build-tools/
 
@@ -19,6 +37,17 @@ https://visualstudio.microsoft.com/ko/visual-cpp-build-tools/
 [mysql-connector-python 라이브러리 다운로드 코드]
 pip install mysql-connector-python
 
+
+[db 생성 코드]
+CREATE DATABASE minr_pro1;
+USE minr_pro1;
+
+CREATE TABLE login (
+    login_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(50) NOT NULL,
+    user_pw VARCHAR(100) NOT NULL,
+    user_name VARCHAR(100) NOT NULL
+);
 
 
 
