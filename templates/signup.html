@@ -4,7 +4,7 @@
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="utf-8" />
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sign_style.css') }}"> <!-- CSS 파일 경로 수정 -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signup_style.css') }}"> <!-- CSS 파일 경로 수정 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600" rel="stylesheet" type="text/css" />
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -42,7 +42,7 @@
       </form>
 
       <form class="login-form">
-        <button type="button" onclick="window.location.href='login.html'">LOGIN</button> <!-- 버튼 클릭 시 이동 경로 수정 -->
+        <button type="button" onclick="window.location.href='{{ url_for('index') }}'">login</button> <!-- 버튼 클릭 시 이동 경로 수정 -->
       </form>
     </div>
   </div>
