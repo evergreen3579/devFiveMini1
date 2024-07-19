@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from db.connector import get_db_connection  # 예시로 사용하는 경우, 실제 프로젝트에 맞게 수정 필요
 
+login_bp = Blueprint('login', __name__)
 app = Blueprint('app', __name__, template_folder='templates')
 
 # 로그인 라우트

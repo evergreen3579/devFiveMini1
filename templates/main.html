@@ -1,26 +1,113 @@
-<!-- templates/main.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    <title>글 작성 및 삭제</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .delete-btn {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>메인 페이지</h1>
-    
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    
-    <p>로그인 성공! 어서오세요.</p>
-    
-    <a href="{{ url_for('index') }}">로그아웃</a>
+    <h1>글 작성 및 삭제</h1>
+
+    <h2>글 작성</h2>
+    <form id="createPostForm">
+        <label for="title">제목:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content" rows="4" required></textarea><br><br>
+        <button type="submit">글 작성</button>
+    </form>
+
+    <hr>
+
+    <h2>글 목록</h2>
+    <div id="postsContainer"></div>
+
+    <script>
+        // 글 목록 가져오기
+        function fetchPosts() {
+            $.ajax({
+                url: '/posts',
+                type: 'GET',
+                success: function(data) {
+                    displayPosts(data);
+                },
+                error: function(error) {
+                    console.error('글 목록을 가져오는 중 에러 발생:', error);
+                }
+            });
+        }
+
+        // 글 목록을 화면에 표시
+        function displayPosts(posts) {
+            var postsContainer = $('#postsContainer');
+            postsContainer.empty();
+
+            posts.forEach(function(post) {
+                var postHtml = '<div class="post" data-post-id="' + post.id + '">';
+                postHtml += '<h3>' + post.title + '</h3>';
+                postHtml += '<p>' + post.content + '</p>';
+                postHtml += '<p><small>작성일: ' + post.created_at + '</small></p>';
+                postHtml += '<button class="delete-btn" onclick="deletePost(' + post.id + ')">삭제</button>';
+                postHtml += '</div>';
+
+                postsContainer.append(postHtml);
+            });
+        }
+
+        // 글 작성 폼 제출 처리
+        $('#createPostForm').submit(function(event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+            $.ajax({
+                url: '/create_post',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    fetchPosts();
+                    $('#title').val('');
+                    $('#content').val('');
+                },
+                error: function(error) {
+                    console.error('글 작성 중 에러 발생:', error);
+                }
+            });
+        });
+
+        // 글 삭제 처리
+        function deletePost(postId) {
+            $.ajax({
+                url: '/delete_post/' + postId,
+                type: 'DELETE',
+                success: function(response) {
+                    fetchPosts();
+                },
+                error: function(error) {
+                    console.error('글 삭제 중 에러 발생:', error);
+                }
+            });
+        }
+
+        // 페이지 로드 시 글 목록 가져오기
+        $(document).ready(function() {
+            fetchPosts();
+        });
+    </script>
 </body>
 </html>
