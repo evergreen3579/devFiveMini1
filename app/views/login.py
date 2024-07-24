@@ -31,7 +31,7 @@ def login():
                 # 로그인 성공
                 session['user_id'] = user_id  # 세션에 사용자 ID 저장
                 flash('로그인 성공', 'success')
-                return redirect(url_for('app.main'))
+                return redirect(url_for('posts.posts'))
             else:
                 # 로그인 실패
                 flash('아이디 또는 비밀번호를 다시 입력해 주세요', 'error')
@@ -44,20 +44,3 @@ def login():
     # GET 요청인 경우
     return render_template('index.html')
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/main')
-def main():
-    if 'user_id' in session:
-        return render_template('main.html')
-    else:
-        flash('로그인이 필요합니다', 'error')
-        return redirect(url_for('app.index'))
-
-@app.route('/logout')
-def logout():
-    session.pop('user_id', None)
-    flash('로그아웃 되었습니다', 'info')
-    return redirect(url_for('app.index'))
