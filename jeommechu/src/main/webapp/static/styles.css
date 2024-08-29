@@ -1,0 +1,538 @@
+/* --------------h1태그 스타일------------------ */
+/* 골라서 쓰세요 1번 ~ 13번*/
+
+/* === BASE HEADING === */ 
+
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+h1 span {
+  display: block;
+  font-size: 0.5em;
+  line-height: 1.3;
+}
+h1 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* === HEADING STYLE #1 === */
+.one h1 {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+
+/* === HEADING STYLE #2 === */
+.two h1 {
+  text-transform: capitalize;
+}
+.two h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 2px;
+  content: "";
+  background-color: #c50000;
+}
+
+.two h1 span {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  line-height: 3em;
+  padding-left: 0.25em;
+  color: rgba(0, 0, 0, 0.4);
+  padding-bottom: 10px;
+}
+.alt-two h1 {
+  text-align:center;
+}
+.alt-two h1:before {
+  left:50%; margin-left:-30px;
+}
+
+/* === HEADING STYLE #3 === */
+.three h1 {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.5em;
+  padding-bottom: 15px;
+  position: relative;
+}
+.three h1:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 5px;
+  width: 55px;
+  background-color: #111;
+}
+.three h1:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  height: 1px;
+  width: 95%;
+  max-width: 255px;
+  background-color: #333;
+}
+
+/* === HEADING STYLE #4 === */
+.four h1 {
+  text-align: center;
+  padding-bottom: 0.7em;
+}
+.four h1 span {
+  font-weight: 300;
+  word-spacing: 3px;
+  line-height: 2em;
+  padding-bottom: 0.35em;
+  color: rgba(0, 0, 0, 0.5);
+}
+.four h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 1px;
+  content: "";
+  left: 50%;
+  margin-left: -30px;
+  background-color: #777;
+}
+
+/* === HEADING STYLE #5 === */
+.five h1 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700; color:#202020;
+  text-transform: uppercase;
+  word-spacing: 1px; letter-spacing:2px;
+}
+.five h1 span {
+  margin-top: 40px;
+  text-transform: none;
+  font-size:.75em;
+  font-weight: normal;
+  font-style: italic; font-family: "Playfair Display","Bookman",serif;
+  color:#999; letter-spacing:-0.005em; word-spacing:1px;
+  letter-spacing:none;
+}
+.five h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 38px;
+  width: 60px;
+  height: 4px;
+  content: "";
+  left: 50%;
+  margin-left: -30px;
+  background-color: #dfdfdf;
+}
+
+/* STYLE 6
+   ----------------------------- */
+.six h1 {
+  text-align: center;
+  color:#222; font-size:30px; font-weight:400;
+  text-transform: uppercase;
+  word-spacing: 1px; letter-spacing:2px; color:#c50000;
+}
+.six h1 span {
+  line-height:2em; padding-bottom:15px;
+  text-transform: none;
+  font-size:.7em;
+  font-weight: normal;
+  font-style: italic; font-family: "Playfair Display","Bookman",serif;
+  color:#999; letter-spacing:-0.005em; word-spacing:1px;
+  letter-spacing:none;
+}
+.six h1:after, .six h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 45px;
+  height: 4px;
+  content: "";
+  right: 45px; 
+  margin:auto;
+  background-color: #ccc;
+}
+.six h1:before { 
+background-color:#d78b8b;
+  left:45px; width:90px;
+}
+
+/* Style 7
+   ----------------------------- */
+.seven h1 {
+text-align: center;
+    font-size:30px; font-weight:300; color:#222; letter-spacing:1px;
+    text-transform: uppercase;
+
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-template-rows: 27px 0;
+    grid-gap: 20px;
+    align-items: center;
+}
+
+.seven h1:after,.seven h1:before {
+    content: " ";
+    display: block;
+    border-bottom: 1px solid #c50000;
+    border-top: 1px solid #c50000;
+    height: 5px;
+  background-color:#f8f8f8;
+}
+
+/* Style 8
+   ----------------------------- */
+.eight h1 {
+  text-align:center;
+ 
+  text-transform:uppercase;
+  font-size:26px; letter-spacing:1px;
+  
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 16px 0;
+  grid-gap: 22px;
+}
+
+.eight h1:after,.eight h1:before {
+  content: " ";
+  display: block;
+  border-bottom: 2px solid #ccc;
+  background-color:#f8f8f8;
+}
+
+
+/* Style 9
+   ----------------------------- */
+.nine h1 {
+  text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
+  font-family:"Playfair Display", serif; font-weight:400;
+}
+.nine h1 span {
+  margin-top: 5px;
+    font-size:15px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
+    text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
+
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-template-rows: 27px 0;
+    grid-gap: 20px;
+    align-items: center;
+}
+
+.nine h1 span:after,.nine h1 span:before {
+    content: " ";
+    display: block;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    height: 5px;
+  background-color:#f8f8f8;
+}
+
+
+.ten h1 {
+  font-size:34px; font-weight:500; text-transform:uppercase;
+}
+.ten h1:before {
+    background-color: #c50000;
+    border-radius: 0.25rem;
+    content: '';
+    display: block;
+    height: 0.25rem;
+    width: 42px;
+    margin-bottom: 1.25rem;
+}
+
+
+.eleven h1 {
+  font-size:30px;text-align:center; line-height:1.5em; padding-bottom:45px; font-family:"Playfair Display", serif; text-transform:uppercase;letter-spacing: 2px; color:#111;
+}
+
+
+.eleven h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  width: 60%;
+  left:50%; margin-left:-30%;
+  height: 1px;
+  content: "";
+  background-color: #777; z-index: 4;
+}
+.eleven h1:after {
+  position:absolute;
+  width:40px; height:40px; left:50%; margin-left:-20px; bottom:0px;
+  content: '\00a7'; font-size:30px; line-height:40px; color:#c50000;
+  font-weight:400; z-index: 5;
+  display:block;
+  background-color:#f8f8f8;
+}
+
+
+.twelve h1 {
+  font-size:26px; font-weight:700;  letter-spacing:1px; text-transform:uppercase; width:160px; text-align:center; margin:auto; white-space:nowrap; padding-bottom:13px;
+}
+.twelve h1:before {
+    background-color: #c50000;
+    content: '';
+    display: block;
+    height: 3px;
+    width: 75px;
+    margin-bottom: 5px;
+}
+.twelve h1:after {
+    background-color: #c50000;
+    content: '';
+    display: block;
+  position:absolute; right:0; bottom:0;
+    height: 3px;
+    width: 75px;
+    margin-bottom: 0.25em;
+}
+
+
+
+.thirteen h1 {
+  position:relative; font-size:20px; font-weight:700;  letter-spacing:0px; text-transform:uppercase; width:150px; text-align:center; margin:auto; white-space:nowrap; border:2px solid #222;padding:5px 11px 3px 11px;
+}
+.thirteen h1:before, .thirteen h1:after {
+    background-color: #c50000;
+    position:absolute; 
+    content: '';
+    height: 7px;
+
+    width: 7px; border-radius:50%;
+    bottom: 12px;
+}
+.thirteen h1:before {
+   left:-20px;
+}
+.thirteen h1:after {
+   right:-20px;
+}
+
+
+/* --------------전체 페이지 적용------------------ */
+
+
+/* 모든 요소와 가상 요소에 대해 박스 모델을 border-box로 설정 */
+*, *:before, *:after {
+  -moz-box-sizing: border-box; /* Firefox의 box-sizing 속성 설정 */
+  -webkit-box-sizing: border-box; /* Safari 및 Chrome의 box-sizing 속성 설정 */
+  box-sizing: border-box; /* 모든 브라우저에서 border-box 모델을 사용 */
+}
+
+/* 페이지 배경 색상 설정 */
+body {
+  background: #eee; /* 연한 회색 배경 */
+}
+
+/* 모든 div 요소에 대한 스타일 설정 */
+div {
+  position: relative; /* 내부 요소의 위치를 기준으로 상대적 위치 설정 */
+  background: #f8f8f8; /* 매우 연한 회색 배경 */
+  width: 90%; /* 너비를 부모 요소의 90%로 설정 */
+  max-width: 500px; /* 최대 너비를 500px로 제한 */
+  padding: 2em; /* 내부 여백을 2em으로 설정 */
+  margin: 1.5em auto; /* 위아래 여백을 1.5em으로 설정하고, 좌우 중앙 정렬 */
+  border: 3px solid rgba(0, 0, 0, 0.08); /* 테두리를 3px 두께로 설정하고, 약간 투명한 검은색으로 설정 */
+}
+
+/* h1 요소의 가상 요소에 대한 스타일 설정 */
+h1:before, h1:after {
+  background-color: #c50000; /* 배경색을 진한 빨간색으로 설정 */
+}
+
+/* 전체 페이지 배경색 설정 */
+body {
+    background: #ee9ca7;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #ffdde1, #ee9ca7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-family: Arial, sans-serif; /* 폰트 설정 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center; /* 모든 텍스트를 중앙 정렬 */
+}
+
+/* 버튼 스타일 */
+input[type='submit'], button {
+    background-color: #6A5ACD; /* 버튼 배경색: 슬레이트 블루 */
+    color: white; /* 버튼 글자색 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 패딩 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 커서 포인터 */
+    font-size: 16px; /* 글자 크기 */
+    margin-top: 10px; /* 버튼 상단 여백 */
+}
+
+input[type='button'] {
+    background-color: #6A5ACD; /* 버튼 배경색: 슬레이트 블루 */
+    color: white; /* 버튼 글자색 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 패딩 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 커서 포인터 */
+    font-size: 16px; /* 글자 크기 */
+    margin-top: 10px; /* 버튼 상단 여백 */
+}
+
+input[type='submit']:hover, button:hover {
+    background-color: #5a4f8a; /* 버튼 호버 시 색상 변경 */
+}
+
+/* 입력 필드 스타일 */
+input[type='text'] {
+    padding: 10px; /* 패딩 */
+    border: 1px solid #ddd; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 글자 크기 */
+    width: calc(100% - 22px); /* 입력 필드 너비 조정 */
+    box-sizing: border-box; /* 패딩 및 테두리 포함 */
+}
+
+/* <p> 태그에 밑줄 색상과 두께 조정 */
+p {
+    text-decoration-line: underline; /* 밑줄 추가 */
+    text-decoration-color: #efcdfc; /* 밑줄 색상 */
+    text-decoration-style: solid; /* 밑줄 스타일 (실선) */
+    text-decoration-thickness: 1px; /* 밑줄 두께 */
+}
+
+
+/* --------------LunchServlet------------------ */
+
+
+/* LunchServlet 전용 스타일 */
+#lunch-page .menupan {
+    background-color: #FFFFFF; /* 컨테이너 배경색: 흰색 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 20px; /* 패딩 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 */
+    width: 80%; /* 컨테이너 너비 */
+    max-width: 800px; /* 최대 너비 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+#lunch-page table {
+    width: 100%; /* 테이블 너비: 100% */
+    border-collapse: collapse; /* 테두리 중첩 방지 */
+    margin: 0 auto; /* 테이블 중앙 정렬 */
+}
+
+#lunch-page table tbody {
+  display: block;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+#lunch-page table thead, #lunch-page table tbody tr {
+  display: table;
+  width: 100%;
+}
+
+#lunch-page table, #lunch-page th, #lunch-page td {
+    border: 1px solid #ddd; /* 테두리 색상 */
+}
+
+#lunch-page th, #lunch-page td {
+    padding: 10px; /* 패딩 */
+    text-align: center; 
+  vertical-align: middle;
+}
+
+#lunch-page th {
+    background-color: #f4f4f4; /* 헤더 배경색 */
+    font-weight: bold; /* 폰트 굵게 */
+}
+
+
+/* --------------GameOneServlet------------------ */
+
+
+/* #game-one 컨테이너의 스타일 설정 */
+#game-one .game-one-container {
+    max-width: 800px; /* 컨테이너의 최대 너비를 800px로 설정 */
+    margin: 0 auto; /* 수평 중앙 정렬을 위해 자동 마진 적용 */
+    padding: 20px; /* 컨테이너 내부에 20px의 여백 추가 */
+    background-color: #FFFFFF; /* 배경색을 흰색으로 설정 */
+    border-radius: 8px; /* 컨테이너의 모서리를 8px 반경으로 둥글게 처리 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 미세한 그림자 효과 추가 */
+}
+
+/* #game-one 테이블의 스타일 설정 */
+#game-one .game-one-table {
+    width: 100%; /* 테이블 너비를 컨테이너에 맞게 100%로 설정 */
+    border-collapse: collapse; /* 테이블 셀의 경계선을 병합 */
+}
+
+/* #game-one 테이블 셀의 스타일 설정 */
+#game-one .game-one-table td {
+    padding: 15px; /* 셀 내부에 15px의 여백 추가 */
+    text-align: center; /* 텍스트를 셀의 중앙에 정렬 */
+}
+
+/* 게임 오버레이의 스타일 설정 */
+#game-one .game-one-overlay {
+    background: rgba(0, 0, 0, 0.7); /* 배경색을 검정색으로 설정하되 투명도 70% 적용 */
+    color: white; /* 텍스트 색상을 흰색으로 설정 */
+    cursor: pointer; /* 커서가 포인터로 변경되어 클릭할 수 있음을 나타냄 */
+    display: flex; /* 플렉스박스 레이아웃 사용 */
+    align-items: center; /* 수직 방향으로 아이템을 중앙 정렬 */
+    justify-content: center; /* 수평 방향으로 아이템을 중앙 정렬 */
+    height: 100%; /* 오버레이의 높이를 부모 요소의 100%로 설정 */
+    width: 100%; /* 오버레이의 너비를 부모 요소의 100%로 설정 */
+}
+
+/* 게임 콘텐츠의 기본 상태 설정 */
+#game-one .game-one-content {
+    display: none; /* 콘텐츠를 기본적으로 숨김 처리 */
+}
