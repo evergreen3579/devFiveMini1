@@ -1,0 +1,17 @@
+CREATE TABLE FoodIf (
+    Num VARCHAR(255) PRIMARY KEY,  
+    Name VARCHAR(255),        
+          
+    AllKcal DECIMAL(10, 2),   
+    OhKcal DECIMAL(10, 2),   
+    W DECIMAL(10, 2),         
+           
+    P DECIMAL(10, 2),         
+    F DECIMAL(10, 2),         
+    C DECIMAL(10, 2),         
+    S DECIMAL(10, 2),         
+    Na DECIMAL(10, 2),        
+    Chol DECIMAL(10, 2),      
+    SF DECIMAL(10, 2),        
+            
+);
