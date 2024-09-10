@@ -1,7 +1,7 @@
 CREATE TABLE FoodIf (
-    Num VARCHAR(255) PRIMARY KEY,  -- Num에 Primary Key 부여
+    Num VARCHAR(255) PRIMARY KEY,  
     Name VARCHAR(255),        
-    Ca VARCHAR(255),        
+          
     AllKcal DECIMAL(10, 2),   
     OhKcal DECIMAL(10, 2),   
     W DECIMAL(10, 2),         
@@ -13,5 +13,5 @@ CREATE TABLE FoodIf (
     Na DECIMAL(10, 2),        
     Chol DECIMAL(10, 2),      
     SF DECIMAL(10, 2),        
-    TF DECIMAL(10, 2)        
+            
 );
