@@ -1,0 +1,12 @@
+1. CREATE TABLE food_items (
+    num INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    ca CHAR(1) NOT NULL
+);
+
+2. CREATE INDEX idx_name ON food_items(name);
+
+
+3. ALTER TABLE food_items
+ADD CONSTRAINT fk_name
+FOREIGN KEY (name) REFERENCES foodif(name);
