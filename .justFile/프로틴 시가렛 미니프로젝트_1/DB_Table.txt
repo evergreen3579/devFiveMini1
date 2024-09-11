@@ -2,18 +2,43 @@ CREATE DATABASE jeommechu;
 
 USE jeommechu;
 
-CREATE TABLE lunch (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    menu VARCHAR(255) NOT NULL UNIQUE
-);
-
-
-USE jeommechu;
-
 CREATE TABLE MEMBER (
     id INT AUTO_INCREMENT PRIMARY KEY,
     memberID VARCHAR(50) NOT NULL UNIQUE,
     memberPW VARCHAR(255) NOT NULL,
     memberName VARCHAR(50),
     role ENUM('USER', 'ADMIN') DEFAULT 'USER'
+);
+
+CREATE TABLE FoodList (
+    Num VARCHAR(255) PRIMARY KEY,
+    Name VARCHAR(255),        
+            
+    AllKcal DECIMAL(10, 2),   
+    OhKcal DECIMAL(10, 2),   
+    W DECIMAL(10, 2),         
+           
+    P DECIMAL(10, 2),         
+    F DECIMAL(10, 2),         
+    C DECIMAL(10, 2),         
+    S DECIMAL(10, 2),         
+    Na DECIMAL(10, 2),        
+        
+    SF DECIMAL(10, 2)                 
+);
+
+CREATE TABLE Lunch (
+    lunch_id INT AUTO_INCREMENT PRIMARY KEY,
+    foodlist_num VARCHAR(255),
+    member_id VARCHAR(50),
+
+    CONSTRAINT fk_foodif
+        FOREIGN KEY (foodif_num)
+        REFERENCES foodlist(Num)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_member
+        FOREIGN KEY (member_id)
+        REFERENCES MEMBER(memberID)
+        ON DELETE SET NULL
 );
