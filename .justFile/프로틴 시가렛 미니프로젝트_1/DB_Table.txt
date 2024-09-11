@@ -1,0 +1,19 @@
+CREATE DATABASE jeommechu;
+
+USE jeommechu;
+
+CREATE TABLE lunch (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    menu VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+USE jeommechu;
+
+CREATE TABLE MEMBER (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    memberID VARCHAR(50) NOT NULL UNIQUE,
+    memberPW VARCHAR(255) NOT NULL,
+    memberName VARCHAR(50),
+    role ENUM('USER', 'ADMIN') DEFAULT 'USER'
+);
