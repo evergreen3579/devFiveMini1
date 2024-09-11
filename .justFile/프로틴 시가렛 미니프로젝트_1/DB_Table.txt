@@ -32,8 +32,8 @@ CREATE TABLE Lunch (
     foodlist_num VARCHAR(255),
     member_id VARCHAR(50),
 
-    CONSTRAINT fk_foodif
-        FOREIGN KEY (foodif_num)
+    CONSTRAINT fk_foodlist
+        FOREIGN KEY (foodlist_num)
         REFERENCES foodlist(Num)
         ON DELETE SET NULL,
 
