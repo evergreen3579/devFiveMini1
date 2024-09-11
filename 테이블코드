@@ -1,4 +1,4 @@
-CREATE TABLE FoodIf (
+CREATE TABLE FoodList (
     Num VARCHAR(255) PRIMARY KEY,  -- Num에 Primary Key 부여
     Name VARCHAR(255),        
             
@@ -11,7 +11,7 @@ CREATE TABLE FoodIf (
     C DECIMAL(10, 2),         
     S DECIMAL(10, 2),         
     Na DECIMAL(10, 2),        
-    Chol DECIMAL(10, 2),      
+        
     SF DECIMAL(10, 2)        
             
 );
