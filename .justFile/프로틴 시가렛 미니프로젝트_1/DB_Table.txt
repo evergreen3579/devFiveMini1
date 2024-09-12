@@ -30,15 +30,16 @@ CREATE TABLE FoodList (
 CREATE TABLE Lunch (
     lunch_id INT AUTO_INCREMENT PRIMARY KEY,
     foodlist_num VARCHAR(255),
-    member_id VARCHAR(50),
+    member_id INT,
 
     CONSTRAINT fk_foodlist
         FOREIGN KEY (foodlist_num)
-        REFERENCES foodlist(Num)
+        REFERENCES FoodList(Num)
         ON DELETE SET NULL,
 
     CONSTRAINT fk_member
         FOREIGN KEY (member_id)
-        REFERENCES MEMBER(memberID)
+        REFERENCES MEMBER(id) -- `id`로 참조합니다
         ON DELETE SET NULL
 );
+
