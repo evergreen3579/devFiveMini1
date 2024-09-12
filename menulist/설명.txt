@@ -1,2 +1,0 @@
-com.jeommechu.menu.menulist
-com.jeommechu.web.menulist

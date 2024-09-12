@@ -47,7 +47,7 @@ public class GameOneServlet extends HttpServlet {
             out.println("<head>");
             out.println("<meta charset=\"UTF-8\">");
             out.println("<title>LUNCH-GAME-1</title>");
-            //out.println("<link rel='stylesheet' href='static/styles.css'>");
+            out.println("<link rel='stylesheet' href='static/game.css'>");
             
             out.println("<style>");
             out.println("#game-one .game-one-container { max-width: 800px; margin: 0 auto; padding: 20px; background-color: #FFFFFF; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }");
@@ -67,11 +67,10 @@ public class GameOneServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<center>");
+            out.println("<section id=\"bg\">");
             out.println("<div id='game-one'>");
             
-            out.println("<div class=\"twelve\">");
-            out.println("<h1>점심 메뉴 뽑기</h1>");
-            out.println("</div>");
+            out.println("<h1 class=\"sixth\"> What is Today’s Lunch Menu? </h1>");
             
             out.println("<br><br><br>");
             
@@ -81,10 +80,11 @@ public class GameOneServlet extends HttpServlet {
             out.println("<tr>");
             out.println("<td class='menu-container'>");
             out.println("<div id='menu-overlay' class='game-one-overlay' onclick='showMenu()'>");
-            out.println("클릭하여 메뉴 보기");
+            out.println("오늘의 점심메뉴 확인하기");
             out.println("</div>");
             out.println("<div id='menu-content' class='game-one-content'>");
             out.println(selectedMenu);
+            out.println("<br>");
             out.println("</div>");
             out.println("</td>");
             out.println("</tr>");
@@ -92,15 +92,17 @@ public class GameOneServlet extends HttpServlet {
             out.println("</table>");
             out.println("</div>");
             
-            out.println("<br>");
-            out.println("<button onClick=\"window.location.reload()\">ReStart</button>");
+            out.println("<br><br><br><br><br>");
+            out.println("<button class=\"learn-more\" onClick=\"window.location.reload()\">ReStart</button>");
             out.println("<br><br><br>");
             out.println("<form action=\"getLunches\" method=\"get\">");
-            out.println("<button type=\"submit\">Main</button>");
+            out.println("<button class=\"learn-more\" type=\"submit\">Main</button>");
             out.println("</form>");
             
             out.println("</div>");
+            out.println("</section>");
             out.println("</center>");
+            out.println("<div class=\"footer-text\">Protein Cigarette</div>");
             out.println("</body>");
             out.println("</html>");
         }

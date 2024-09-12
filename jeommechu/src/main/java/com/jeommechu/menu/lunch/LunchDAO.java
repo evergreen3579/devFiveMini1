@@ -108,4 +108,31 @@ public class LunchDAO {
         }
         return menuItems;
     }
+    
+    
+ // Lunch 테이블에 항목을 추가하는 메서드
+    public boolean addToLunch(String foodlistNum, String memberId) {
+        String sql = "INSERT INTO Lunch (foodlist_num, member_id) VALUES (?, ?)";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean isAdded = false;
+
+        try {
+            conn = JDBCUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, foodlistNum);
+            stmt.setString(2, memberId);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                isAdded = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(stmt, conn);
+        }
+
+        return isAdded;
+    }
 }

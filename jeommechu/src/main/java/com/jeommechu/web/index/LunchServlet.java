@@ -22,43 +22,67 @@ public class LunchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    	response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             List<LunchVO> lunches = lunchDAO.getAllLunches();
             HttpSession session = request.getSession();
             String errorMessage = (String) session.getAttribute("errorMessage");
             session.removeAttribute("errorMessage");
+            
+            String role = (String) session.getAttribute("role");
 
             out.println("<!DOCTYPE html>");
             out.println("<html lang='en'>");
+            
             out.println("<head>");
             out.println("<meta charset='UTF-8'>");
             out.println("<title>LUNCH</title>");
-            out.println("<link rel='stylesheet' href='static/styles.css'>");
-            out.println("</head>");
+            out.println("<link rel='stylesheet' href='static/main.css'>");
+            out.println("</head>");  
+            
             out.println("<body id='lunch-page'>");
-            out.println("<center>");
+            
+            out.println("<header>");
+            out.println("<a href='getLunches'>JEOMMECHU</a>");
+            
+            out.println("<div class=\"rights\">");
+            String memberName = (String) session.getAttribute("memberName");
+            String welcomeMessage = (String) session.getAttribute("welcomeMessage");
+            if (memberName != null && welcomeMessage != null) {
+                out.println(memberName + welcomeMessage);
+                out.println("<a href='logout'>Logout</a>");
+            } else {
+                response.sendRedirect("login.html");
+            }
+            out.println("</div>");
+            out.println("<h1>LUNCH</h1>");
+            out.println("</header>");
+            
+            out.println("<hr>");
+            
+            out.println("<main>");
             out.println("<br><br>");
-            out.println("<div class=\"eleven\">");
-            out.println("<h1>- 점심 메뉴 추가 -</h1>");
-            out.println("<div class='container'>");
-            out.println("<form action='addLunch' method='post'>");
+            
+            out.println("<h2>▶ Lunch Add ◀</h2>");
+            
+            out.println("<br>");
+            out.println("<div class='menulist'>");
+            out.println("<form action='menulist' method='get'>");
             out.println("<tr>");
-            out.println("<td>");
-            out.println("<input type='text' name='menu' placeholder=\"음식 메뉴를 작성해주세요.\"/>");
-            out.println("<input type='submit' value='메뉴 추가'/>");
-            out.println("</td>");
+            out.println("<input type='submit' value='메뉴 리스트 보기'/>");
             out.println("</tr>");
             out.println("</form>");
             out.println("</div>");
-            out.println("<br>");
-            out.println("<h1>- 점심 메뉴 목록 -</h1>");
+            
+            out.println("<br><br>");
+            
+            out.println("<h2>▶ Lunch Menu ◀</h2>");
             out.println("<br>");
             out.println("<div class='menupan'>");
             out.println("<table border='1'>");
             out.println("<thead>");
             out.println("<tr>");
-            out.println("<th>점심 메뉴</th>");
+            out.println("<th>- 목록 -</th>");
             out.println("</tr>");
             out.println("</thead>");
             out.println("<tbody>");
@@ -66,23 +90,50 @@ public class LunchServlet extends HttpServlet {
             // 메뉴 항목만 가져오기
             List<String> menuItems = lunchDAO.getAllMenuItems();
             // 점심 메뉴 목록을 테이블에 추가
-            for (String menu : menuItems) {
-                out.println("<tr>");
-                out.println("<td>" + menu + "</td>");
-                out.println("</tr>");
+            if(menuItems != null && !menuItems.isEmpty()) {
+            	for (String menu : menuItems) {
+            		out.println("<tr>");
+            		out.println("<td>" + menu + "</td>");
+            		out.println("</tr>");
+            	}
+            } else {
+            	out.println("<tr>");
+            	out.println("<td colspan='1'>선택된 메뉴가 없습니다.</td>");
+            	out.println("</tr>");
             }
 
             out.println("</tbody>");
             out.println("</table>");
             out.println("</div>");
-            out.println("<br>");
-            out.println("<form action='resetLunches' method='post'>");
-            out.println("<input type='submit' value='메뉴 리셋'/>");
-            out.println("</form>");
+            if ("ADMIN".equals(role)) {
+                out.println("<br>");
+                out.println("<form action='resetLunches' method='post'>");
+                out.println("<input type='submit' value='메뉴 리셋'/>");
+                out.println("</form>");
+            } else {
+                out.println("<br><p>* 메뉴 리셋은 관리자한테 문의해주세요 *</p>");
+            }
             out.println("</div>");
-            out.println("<input type='button' value='메뉴 뽑기' onclick=\"location.href='select.html'\"/>");
+            
             out.println("<br><br>");
-            out.println("</center>");
+            out.println("</main>");
+            out.println("<hr>");
+            
+            out.println("<footer>");
+            
+            out.println("<br><br>");
+            out.println("<input type='submit' value='메뉴 뽑기' onclick=\"location.href='gameSelect'\"/>");
+            
+            out.println("<div class=\"left\">");
+            if ("ADMIN".equals(role)) {
+                out.println("<br>");
+                out.println("<a href='memberList'>회원 관리</a>");
+            }
+            out.println("</div>");
+            
+            out.println("<div class=\"footer-text\">Protein Cigarette</div>");
+            out.println("</footer>");
+            
             out.println("</body>");
             out.println("</html>");
         } catch (SQLException e) {
