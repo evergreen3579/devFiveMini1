@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel='stylesheet' href='static/account.css'>
+<title>회원가입</title>
+</head>
+<body>
+<section id="bg">
+<center>
+<br><br><br><br> <!-- 여백을 추가하여 '회원가입'을 아래로 위치시킴 -->
+<h2>
+    <span class="bounceOdd">회</span>
+    <span class="bounceOdd">원</span>
+    <span class="bounceEven">가</span>
+    <span class="bounceEven">입</span>
+</h2>
+<form class="login" action="insertUser" method="post">
+    <input type="text" name="id" size="10" placeholder="아이디 작성" required/>
+    
+    <input type="password" name="password" size="10" placeholder="비밀번호 작성" required/>
+    
+    <input type="text" name="name" size="10" placeholder="닉네임 작성" maxlength='5' required/>
+    
+    <p>
+        <input type="radio" name="role" value="USER" checked/>사용자
+        <input type="radio" name="role" value="ADMIN" disabled/>관리자
+    </p>
+        
+    <br>
+    <button type="submit" value="회원가입">회원가입</button>
+    &nbsp;&nbsp;&nbsp;
+    <button type="reset" value="작성취소">작성취소</button>
+    <a href="login.html">로그인</a>
+</form>
+</center>
+
+</section>
+</body>
+</html>
