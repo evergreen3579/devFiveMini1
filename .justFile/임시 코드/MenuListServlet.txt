@@ -1,0 +1,219 @@
+package com.jeommechu.web.menulist;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+
+import com.jeommechu.menu.menulist.MenuListDAO;
+import com.jeommechu.menu.menulist.MenuListVO;
+
+@WebServlet("/menulist")
+public class MenuListServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+    private MenuListDAO menuListDAO = new MenuListDAO();
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        
+        HttpSession session = request.getSession();
+        String errorMessage = (String) session.getAttribute("errorMessage");
+        session.removeAttribute("errorMessage");
+        
+        String role = (String) session.getAttribute("role");
+
+        List<MenuListVO> menuList = null;
+
+        try (PrintWriter out = response.getWriter()) {
+            try {
+                String search = request.getParameter("search");
+                menuList = menuListDAO.getMenuList(search); // 검색어를 전달하여 메뉴 리스트를 가져옴
+            } catch (SQLException e) {
+                throw new ServletException("데이터베이스 오류 발생", e); // 서블릿 예외로 래핑
+            }
+
+            out.println("<!DOCTYPE html>");
+            out.println("<html lang='en'>");
+            
+            out.println("<head>");
+            out.println("<meta charset='UTF-8'>");
+            out.println("<title>메뉴 목록</title>");
+            out.println("<link rel='stylesheet' href='static/main.css'>");
+
+            // CSS 스타일 추가
+            out.println("<style>");
+            out.println("#tooltip {");
+            out.println("  display: none;");
+            out.println("  position: absolute;");
+            out.println("  background-color: rgba(255, 255, 255, 0.9);");
+            out.println("  border: 1px solid #ccc;");
+            out.println("  padding: 10px;");
+            out.println("  border-radius: 10px;");
+            out.println("  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);");
+            out.println("  font-family: 'Arial', sans-serif;");
+            out.println("  font-size: 12px;");
+            out.println("  color: #333;");
+            out.println("  max-width: 200px;");
+            out.println("  z-index: 1000;");
+            out.println("  transition: opacity 0.2s ease-in-out;");
+            out.println("  opacity: 0;");
+            out.println("}");
+
+            out.println("#tooltip.show {");
+            out.println("  opacity: 1;");
+            out.println("  transition: opacity 0.2s ease-in-out;");
+            out.println("}");
+            out.println("</style>");
+            
+            // JavaScript로 마우스 오버 시 툴팁을 보여주는 기능 추가
+            out.println("<script type='text/javascript'>");
+            out.println("function showTooltip(menuData, event) {");
+            out.println("  var tooltip = document.getElementById('tooltip');");
+            out.println("  tooltip.innerHTML = menuData;");
+            out.println("  tooltip.style.display = 'block';");
+            out.println("  tooltip.style.left = (event.pageX + 15) + 'px';"); // 마우스 위치에서 약간 떨어지게
+            out.println("  tooltip.style.top = (event.pageY + 15) + 'px';");
+            out.println("  tooltip.classList.add('show');");
+            out.println("}");
+
+            out.println("function hideTooltip(event) {");
+            out.println("  var e = event.toElement || event.relatedTarget;"); // 마우스가 이동한 요소 확인
+            out.println("  if (e && e.closest('#tooltip')) {"); // 툴팁 안으로 마우스가 들어갔으면 숨기지 않음
+            out.println("    return;");
+            out.println("  }");
+            out.println("  var tooltip = document.getElementById('tooltip');");
+            out.println("  tooltip.classList.remove('show');");
+            out.println("  setTimeout(function() {");
+            out.println("    tooltip.style.display = 'none';");
+            out.println("  }, 200);");
+            out.println("}");
+            out.println("</script>");
+
+            out.println("</head>");  
+            
+            out.println("<body id='menu-list-page'>");
+            
+            out.println("<header>");
+            out.println("<a href='getLunches'>JEOMMECHU</a>");
+            
+            out.println("<div class=\"rights\">");
+            String memberName = (String) session.getAttribute("memberName");
+            String welcomeMessage = (String) session.getAttribute("welcomeMessage");
+            if (memberName != null && welcomeMessage != null) {
+                out.println(memberName + welcomeMessage);
+                out.println("<a href='logout'>로그아웃</a>");
+            } else {
+                response.sendRedirect("login.html");
+                return; // 로그인 페이지로 리다이렉트 후, 현재 서블릿의 실행을 중단합니다.
+            }
+            out.println("</div>");
+            out.println("<h1>메뉴 목록</h1>");
+            out.println("</header>");
+            
+            out.println("<hr>");
+            
+            out.println("<main>");
+            out.println("<br><br>");
+            
+            // 검색 폼 추가
+            out.println("<h2>▶ 메뉴 검색 ◀</h2>");
+            out.println("<form action='menulist' method='get'>");
+            out.println("검색: <input type='text' name='search' value='" + request.getParameter("search") + "'/>");
+            out.println("<input type='submit' value='검색'/>");
+            out.println("</form>");
+            
+            out.println("<br><br>");
+            
+            out.println("<h2>▶ 메뉴 목록 ◀</h2>");
+            out.println("<br>");
+            out.println("<div class='menulist'>");
+            out.println("<table border='1'>");
+            out.println("<thead>");
+            out.println("<tr>");
+            out.println("<th>번호</th>");
+            out.println("<th>이름</th>");
+            out.println("<th>전체 칼로리</th>");
+            out.println("<th>오메가 칼로리</th>");
+            out.println("<th>중량</th>");
+            out.println("<th>단백질</th>");
+            out.println("<th>지방</th>");
+            out.println("<th>탄수화물</th>");
+            out.println("<th>당</th>");
+            out.println("<th>나트륨</th>");
+            out.println("<th>포화지방</th>");
+            out.println("<th>고르기</th>"); // "추가" 버튼을 위한 액션 열
+            out.println("</tr>");
+            out.println("</thead>");
+            out.println("<tbody>");
+
+            if (menuList != null && !menuList.isEmpty()) {
+                for (MenuListVO menu : menuList) {
+                    // 마우스 오버 이벤트를 사용하여 툴팁 표시
+                    String tooltipData = "전체 칼로리: " + menu.getAllKcal() + " kcal<br>"
+                                        + "오메가 칼로리: " + menu.getOhKcal() + " kcal<br>"
+                                        + "단백질: " + menu.getP() + "g<br>"
+                                        + "지방: " + menu.getF() + "g<br>"
+                                        + "탄수화물: " + menu.getC() + "g<br>"
+                                        + "당: " + menu.getS() + "g<br>"
+                                        + "나트륨: " + menu.getNa() + "mg<br>"
+                                        + "포화지방: " + menu.getSf() + "g";
+                    
+                    out.println("<tr onmouseover=\"showTooltip('" + tooltipData + "', event)\" onmouseout=\"hideTooltip()\">");
+                    out.println("<td>" + menu.getNum() + "</td>");
+                    out.println("<td>" + menu.getName() + "</td>");
+                    out.println("<td>" + menu.getAllKcal() + "</td>");
+                    out.println("<td>" + menu.getOhKcal() + "</td>");
+                    out.println("<td>" + menu.getW() + "</td>");
+                    out.println("<td>" + menu.getP() + "</td>");
+                    out.println("<td>" + menu.getF() + "</td>");
+                    out.println("<td>" + menu.getC() + "</td>");
+                    out.println("<td>" + menu.getS() + "</td>");
+                    out.println("<td>" + menu.getNa() + "</td>");
+                    out.println("<td>" + menu.getSf() + "</td>");
+                    out.println("<td><a href='addToLunch?num=" + menu.getNum() + "'>점심에 추가</a></td>"); // "추가" 링크
+                    out.println("</tr>");
+                }
+            } else {
+                out.println("<tr>");
+                out.println("<td colspan='12'>선택된 메뉴가 없습니다.</td>");
+                out.println("</tr>");
+            }
+
+            out.println("</tbody>");
+            out.println("</table>");
+            out.println("</div>");
+            
+            out.println("<br><br>");
+            out.println("</main>");
+            out.println("<hr>");
+            
+            out.println("<footer>");
+            out.println("<br><br>");
+            out.println("<input type='submit' value='메뉴 랜덤 선택' onclick=\"location.href='gameSelect'\"/>");
+
+            out.println("<div class=\"left\">");
+            if ("ADMIN".equals(role)) {
+                out.println("<br>");
+                out.println("<a href='memberList'>회원 관리</a>");
+            }
+            out.println("</div>");
+            
+            out.println("<div class=\"footer-text\">Protein Cigarette</div>");
+            out.println("</footer>");
+
+            // 툴팁 추가
+            out.println("<div id='tooltip' style='display:none;'></div>");
+
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+}
