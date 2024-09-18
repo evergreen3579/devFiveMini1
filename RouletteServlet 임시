@@ -1,0 +1,167 @@
+package com.jeommechu.web.game;
+
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.jeommechu.menu.lunch.LunchDAO;
+
+@WebServlet("/game3")
+public class RouletteServlet extends HttpServlet {
+
+    private LunchDAO lunchDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        lunchDAO = new LunchDAO(); // LunchDAO 인스턴스를 초기화합니다
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<String> menuList;
+        try {
+            menuList = lunchDAO.getAllMenuItems(); // 모든 메뉴 이름을 가져옵니다
+        } catch (SQLException e) {
+            throw new ServletException("Error retrieving menu items", e);
+        }
+
+        if (menuList.isEmpty()) {
+            menuList.add("No menu items found");
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        // HTML 및 JavaScript 코드 작성
+        out.println("<!DOCTYPE html>");
+        out.println("<html lang='ko'>");
+        out.println("<head>");
+        out.println("    <meta charset='UTF-8'>");
+        out.println("    <meta name='viewport' content='width=device-width, initial-scale=1.0'>");
+        out.println("    <title>점메추 - 룰렛</title>");
+        out.println("    <style>");
+        out.println("        html, body, button { font-family: 'Comic Sans MS', cursive, sans-serif; }"); // 폰트 변경
+        out.println("        button { border: 0; margin: 0; padding: 0; }");
+        out.println("        .title { margin-top: 50px; text-align: center; font-size: 36px; font-weight: bold; }"); // 폰트 적용
+        out.println("        .box-roulette { position: relative; margin: 50px auto; width: 500px; height: 500px; border: 10px solid #ccc; border-radius: 50%; background: #ccc; overflow: hidden; }");
+        out.println("        .box-roulette .markers { position: absolute; left: 50%; top: 0; margin-left: -25px; width: 0; height: 0; border: 25px solid #fff; border-left-color: transparent; border-right-color: transparent; border-bottom-color: transparent; z-index: 9999; }");
+        out.println("        .box-roulette .roulette { position: relative; width: 100%; height: 100%; overflow: hidden; }");
+        out.println("        .box-roulette .item { position: absolute; top: 0; width: 0; height: 0; border: 0 solid transparent; transform-origin: 0 100%; }");
+        out.println("        .box-roulette .label { position: absolute; left: 0; top: 0; color: #FFFFFF; white-space: nowrap; transform-origin: 0 0; font-family: 'Comic Sans MS', cursive, sans-serif; }"); // 폰트 적용
+        out.println("        .box-roulette .label .text { display: inline-block; font-size: 20px; font-weight: bold; line-height: 1; vertical-align: middle; }");
+        out.println("        #btn-start { display: block; position: absolute; left: 50%; top: 50%; margin: -50px 0 0 -50px; width: 100px; height: 100px; font-weight: bold; background: #fff; border-radius: 50px; z-index: 9999; cursor: pointer; }");
+        out.println("        #menu-btn { display: block; margin: 20px auto; width: 150px; height: 40px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-align: center; line-height: 40px; }");
+        out.println("        #result { text-align: center; margin-top: 20px; font-size: 24px; font-weight: bold; font-family: 'Comic Sans MS', cursive, sans-serif; }"); // 폰트 적용
+        out.println("    </style>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("    <p class='title'>점메추</p>");
+        out.println("    <div class='box-roulette'>");
+        out.println("        <div class='markers'></div>");
+        out.println("        <button type='button' id='btn-start'>돌려 돌려<br>돌림판</button>");
+        out.println("        <div class='roulette' id='roulette'></div>");
+        out.println("    </div>");
+        out.println("    <div id='result'>오늘 점심은?</div>");
+        out.println("    <button id='menu-btn' onclick='goToAddMenu()'>메뉴 추가하기</button>");
+        out.println("    <script src='https://code.jquery.com/jquery-3.6.3.min.js'></script>");
+        out.println("    <script src='https://cdn.rawgit.com/wilq32/jqueryrotate/master/jQueryRotateCompressed.js'></script>");
+        out.println("    <script>");
+        out.println("        function goToAddMenu() {");
+        out.println("            window.location.href = 'http://localhost:8080/jeommechu/getLunches';");
+        out.println("        }");
+        out.println("        (function($) {");
+        out.println("            $.fn.extend({");
+        out.println("                roulette: function(options) {");
+        out.println("                    var defaults = { angle: 0, angleOffset: -45, speed: 5000, easing: 'easeInOutElastic' };");
+        out.println("                    var opt = $.extend(defaults, options);");
+        out.println("                    return this.each(function() {");
+        out.println("                        var o = opt;");
+        out.println("                        var data = " + convertToJavaScriptArray(menuList) + ";");
+        out.println("                        var itemSize = data.length;");
+        out.println("                        var $wrap = $(this);");
+        out.println("                        var $btnStart = $wrap.find('#btn-start');");
+        out.println("                        var $roulette = $wrap.find('.roulette');");
+        out.println("                        var $result = $('#result');");
+        out.println("                        var wrapW = $wrap.width();");
+        out.println("                        var angle = o.angle;");
+        out.println("                        var angleOffset = o.angleOffset;");
+        out.println("                        var speed = o.speed;");
+        out.println("                        var easing = o.easing;");
+        out.println("                        var d = 360 / itemSize;");
+        out.println("                        var borderTopWidth = wrapW;");
+        out.println("                        var borderRightWidth = tanDeg(d);");
+        out.println("                        for (var i = 1; i <= itemSize; i += 1) {");
+        out.println("                            var idx = i - 1;");
+        out.println("                            var rt = i * d + angleOffset;");
+        out.println("                            var itemHTML = $('<div class=\"item\">');");
+        out.println("                            var labelHTML = '<p class=\"label\"><span class=\"text\">' + data[idx].text + '</span></p>';");
+        out.println("                            $roulette.append(itemHTML);");
+        out.println("                            $roulette.children('.item').eq(idx).append(labelHTML);");
+        out.println("                            $roulette.children('.item').eq(idx).css({");
+        out.println("                                'left': wrapW / 2,");
+        out.println("                                'top': -wrapW / 2,");
+        out.println("                                'border-top-width': borderTopWidth,");
+        out.println("                                'border-right-width': borderRightWidth,");
+        out.println("                                'border-top-color': '#AEC6CF',"); // 색상 고정
+        out.println("                                'transform': 'rotate(' + rt + 'deg)'");
+        out.println("                            });");
+        out.println("                            var textH = parseInt(((2 * Math.PI * wrapW) / d) * 0.5);");
+        out.println("                            $roulette.children('.item').eq(idx).children('.label').css({");
+        out.println("                                'height': textH + 'px',");
+        out.println("                                'line-height': textH + 'px',");
+        out.println("                                'transform': 'translateX(' + (textH * 1.3) + 'px) translateY(' + (wrapW * -0.3) + 'px) rotateZ(' + (90 + d * 0.5) + 'deg)'");
+        out.println("                            });");
+        out.println("                        }");
+        out.println("                        $btnStart.on('click', function() {");
+        out.println("                            var angle = Math.floor(Math.random() * 360);");
+        out.println("                            var angle2 = Math.floor(Math.random() * 360);");
+        out.println("                            var totalAngle = angle + angle2;");
+        out.println("                            var duration = Math.floor(o.speed * 2);");
+        out.println("                            $roulette.rotate({");
+        out.println("                                angle: angle,");
+        out.println("                                animateTo: totalAngle,");
+        out.println("                                duration: duration,");
+        out.println("                                easing: o.easing,");
+        out.println("                                callback: function() {");
+        out.println("                                    var itemIndex = Math.floor((angle2 % 360) / (360 / itemSize));");
+        out.println("                                    $result.text('오늘 점심은: ' + data[itemIndex].text);");
+        out.println("                                }");
+        out.println("                            });");
+        out.println("                        });");
+        out.println("                    });");
+        out.println("                }");
+        out.println("            });");
+        out.println("            function tanDeg(deg) {");
+        out.println("                return Math.tan(deg * (Math.PI / 180));");
+        out.println("            }");
+        out.println("        })(jQuery);");
+        out.println("        $(document).ready(function() {");
+        out.println("            $('.box-roulette').roulette();");
+        out.println("        });");
+        out.println("    </script>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+
+    private String convertToJavaScriptArray(List<String> menuList) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < menuList.size(); i++) {
+            sb.append("{text: '").append(menuList.get(i)).append("'}");
+            if (i < menuList.size() - 1) {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+}
