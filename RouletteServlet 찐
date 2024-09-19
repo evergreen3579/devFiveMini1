@@ -60,8 +60,8 @@ public class RouletteServlet extends HttpServlet {
         out.println("        button { border: 0; margin: 0; padding: 0; }");
         out.println("        .title { margin-top: 50px; text-align: center; font-size: 36px; font-weight: bold; color: #333; }");
         out.println("        .box-roulette { position: relative; margin: 50px auto; width: 500px; height: 500px; border-radius: 50%; background: #fff; overflow: hidden; border: 5px solid #ddd; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }");
-        out.println("        .section { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; clip-path: polygon(100% 100%, 0% 100%, 0% 0%); display: flex; justify-content: center; align-items: center; }");
-        out.println("        .section span { display: block; position: absolute; transform: rotate(-90deg); font-size: 14px; font-weight: bold; color: #333; }");
+        out.println("        .section { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; clip-path: polygon(100% 100%, 0% 100%, 0% 0%); display: flex; justify-content: center; align-items: center; text-align: center; }");
+        out.println("        .section span { display: block; transform: rotate(-90deg); font-size: 14px; font-weight: bold; color: #333; }");
         out.println("        #result { text-align: center; margin-top: 20px; font-size: 24px; font-weight: bold; color: #333; }"); // 수정된 텍스트 색상
         out.println("        #btn-start { display: block; position: absolute; left: 50%; top: 50%; margin: -50px 0 0 -50px; width: 100px; height: 100px; font-weight: bold; background: #fff; border-radius: 50px; z-index: 9999; cursor: pointer; border: 2px solid #007bff; color: #007bff; }");
         out.println("        #menu-btn { display: block; margin: 20px auto; width: 150px; height: 40px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-align: center; line-height: 40px; }");
@@ -85,7 +85,7 @@ public class RouletteServlet extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
         out.println("    <p class='title'>점메추</p>");
-        out.println("    <div class='box-roulette'>");
+        out.println("    <div class='box-roulette' id='roulette'>");
 
         // 얇은 화살표 추가
         out.println("    <div class='arrow'></div>");
@@ -127,7 +127,7 @@ public class RouletteServlet extends HttpServlet {
         out.println("                        duration: 5000,");
         out.println("                        callback: function() {");
         out.println("                            var selectedIndex = Math.floor((randomDegree % 360) / 36);");
-        out.println("                            $('#result').text('오늘의 점심은 ' + data[selectedIndex]);");
+        out.println("                            $('#result').text('오늘의 점심은 ' + menuList[selectedIndex]);");
         out.println("                        }");
         out.println("                    });");
         out.println("                });");
@@ -138,9 +138,9 @@ public class RouletteServlet extends HttpServlet {
         out.println("</html>");
     }
 
-    // 각 섹션의 색상을 지정하는 함수
+    // 각 섹션에 사용할 배경색을 반환하는 메소드
     private String getColorForSection(int index) {
-        String[] colors = {"#FFDDC1", "#FFABAB", "#FFC3A0", "#FF677D", "#D4A5A5", "#392F5A", "#31A2AC", "#61C0BF", "#6B4226", "#D9BF77"};
+        String[] colors = { "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50" };
         return colors[index % colors.length];
     }
 }
