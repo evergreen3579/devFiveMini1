@@ -77,8 +77,11 @@ public class RouletteServlet extends HttpServlet {
             double anglePerSection = 360.0 / 10;
             for (int i = 0; i < 10; i++) {
                 double angle = i * anglePerSection;
+                // 텍스트가 각 섹션에 맞게 회전
+                double textRotation = -angle + 18; // 텍스트의 위치와 회전을 조정
+
                 out.println("        <div class='section' style='transform: rotate(" + angle + "deg); background-color: " + getColorForSection(i) + ";'>");
-                out.println("            <span>" + menuList.get(i) + "</span>");
+                out.println("            <span style='transform: rotate(" + textRotation + "deg);'>" + menuList.get(i) + "</span>");
                 out.println("        </div>");
             }
         }
