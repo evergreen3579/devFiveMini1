@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.jeommechu.menu.lunch.LunchDAO;
 
-@WebServlet("/roulette")
+import com.jeommechu.menu.lunch.LunchDAO;
+import com.jeommechu.menu.lunch.LunchVO;
 
 public class RouletteServlet extends HttpServlet {
 
@@ -25,15 +26,21 @@ public class RouletteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> menuList;
+        List<LunchVO> lunches;
         try {
-            menuList = lunchDAO.getAllMenuItems(); // 모든 메뉴 이름을 가져옵니다
+            lunches = lunchDAO.getAllLunches(); // 모든 점심 메뉴 데이터를 가져옵니다
         } catch (SQLException e) {
-            throw new ServletException("Error retrieving menu items", e);
+            throw new ServletException("Error retrieving lunch items", e);
         }
 
-        if (menuList.isEmpty()) {
-            menuList.add("No menu items found");
+        // 음식 이름 리스트를 추출합니다
+        List<String> menuList = lunches.stream()
+                                       .map(LunchVO::getFoodName)
+                                       .collect(Collectors.toList());
+
+        // 메뉴의 개수가 10개를 초과할 경우, 10개로 제한합니다
+        if (menuList.size() > 10) {
+            menuList = menuList.subList(0, 10);
         }
 
         response.setContentType("text/html;charset=UTF-8");
@@ -46,96 +53,79 @@ public class RouletteServlet extends HttpServlet {
         out.println("    <meta charset='UTF-8'>");
         out.println("    <meta name='viewport' content='width=device-width, initial-scale=1.0'>");
         out.println("    <title>점메추 - 룰렛</title>");
+        out.println("    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'>");
         out.println("    <style>");
-        out.println("        html, body, button { font-family: 'Comic Sans MS', cursive, sans-serif; }"); // 폰트 변경
+        out.println("        html, body, button { font-family: 'Poppins', sans-serif; }"); // 폰트 변경
+        out.println("        body { background-color: #f9f9f9; }"); // 배경색
         out.println("        button { border: 0; margin: 0; padding: 0; }");
-        out.println("        .title { margin-top: 50px; text-align: center; font-size: 36px; font-weight: bold; }");
-        out.println("        .box-roulette { position: relative; margin: 50px auto; width: 500px; height: 500px; border: 10px solid #ccc; border-radius: 50%; background: #ccc; overflow: hidden; }");
-        out.println("        .box-roulette .markers { position: absolute; left: 50%; top: 0; margin-left: -25px; width: 0; height: 0; border: 25px solid #fff; border-left-color: transparent; border-right-color: transparent; border-bottom-color: transparent; z-index: 9999; }");
-        out.println("        .box-roulette .roulette { position: relative; width: 100%; height: 100%; overflow: hidden; }");
-        out.println("        .box-roulette .item { position: absolute; top: 0; width: 0; height: 0; border: 0 solid transparent; transform-origin: 0 100%; }");
-        out.println("        .box-roulette .label { position: absolute; left: 0; top: 0; color: #FFFFFF; white-space: nowrap; transform-origin: 0 0; font-family: 'Comic Sans MS', cursive, sans-serif; }");
-        out.println("        .box-roulette .label .text { display: inline-block; font-size: 20px; font-weight: bold; line-height: 1; vertical-align: middle; }");
-        out.println("        #btn-start { display: block; position: absolute; left: 50%; top: 50%; margin: -50px 0 0 -50px; width: 100px; height: 100px; font-weight: bold; background: #fff; border-radius: 50px; z-index: 9999; cursor: pointer; }");
+        out.println("        .title { margin-top: 50px; text-align: center; font-size: 36px; font-weight: bold; color: #333; }");
+        out.println("        .box-roulette { position: relative; margin: 50px auto; width: 500px; height: 500px; border-radius: 50%; background: #fff; overflow: hidden; border: 5px solid #ddd; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }");
+        out.println("        .section { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; clip-path: polygon(100% 100%, 0% 100%, 0% 0%); display: flex; justify-content: center; align-items: center; }");
+        out.println("        .section span { display: block; position: absolute; transform: rotate(-90deg); font-size: 14px; font-weight: bold; color: #333; }");
+        out.println("        #result { text-align: center; margin-top: 20px; font-size: 24px; font-weight: bold; color: #333; }"); // 수정된 텍스트 색상
+        out.println("        #btn-start { display: block; position: absolute; left: 50%; top: 50%; margin: -50px 0 0 -50px; width: 100px; height: 100px; font-weight: bold; background: #fff; border-radius: 50px; z-index: 9999; cursor: pointer; border: 2px solid #007bff; color: #007bff; }");
         out.println("        #menu-btn { display: block; margin: 20px auto; width: 150px; height: 40px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-align: center; line-height: 40px; }");
-        out.println("        #result { text-align: center; margin-top: 20px; font-size: 24px; font-weight: bold; font-family: 'Comic Sans MS', cursive, sans-serif; }");
+        out.println("        #error { text-align: center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #e74c3c; }"); // 오류 메시지 색상
         out.println("    </style>");
         out.println("</head>");
         out.println("<body>");
         out.println("    <p class='title'>점메추</p>");
         out.println("    <div class='box-roulette'>");
-        out.println("        <div class='markers'></div>");
+
+        if (menuList.size() >= 10) {
+            // 10개 구역을 정확히 등분하여 배치
+            double anglePerSection = 360.0 / 10;
+            for (int i = 0; i < 10; i++) {
+                double angle = i * anglePerSection;
+                out.println("        <div class='section' style='transform: rotate(" + angle + "deg); background-color: " + getColorForSection(i) + ";'>");
+                out.println("            <span>" + menuList.get(i) + "</span>");
+                out.println("        </div>");
+            }
+        }
+
         out.println("        <button type='button' id='btn-start'>돌려 돌려<br>돌림판</button>");
-        out.println("        <div class='roulette' id='roulette'></div>");
         out.println("    </div>");
         out.println("    <div id='result'>오늘 점심은?</div>");
         out.println("    <button id='menu-btn' onclick='goToAddMenu()'>메뉴 추가하기</button>");
+        if (menuList.size() < 10) {
+            out.println("    <div id='error'>10개 미만입니다.</div>");
+        }
         out.println("    <script src='https://code.jquery.com/jquery-3.6.3.min.js'></script>");
         out.println("    <script src='https://cdn.rawgit.com/wilq32/jqueryrotate/master/jQueryRotateCompressed.js'></script>");
         out.println("    <script>");
         out.println("        function goToAddMenu() {");
         out.println("            window.location.href = 'http://localhost:8080/jeommechu/getLunches';");
         out.println("        }");
-        out.println("        (function($) {");
-        out.println("            $.fn.extend({");
-        out.println("                roulette: function(options) {");
-        out.println("                    var defaults = { angle: 0, angleOffset: -45, speed: 5000, easing: 'easeInOutElastic' };");
-        out.println("                    var opt = $.extend(defaults, options);");
-        out.println("                    return this.each(function() {");
-        out.println("                        var o = opt;");
-        out.println("                        var data = " + convertToJavaScriptArray(menuList) + ";");
-        out.println("                        var itemSize = data.length;");
-        out.println("                        var $wrap = $(this);");
-        out.println("                        var $btnStart = $wrap.find('#btn-start');");
-        out.println("                        var $roulette = $wrap.find('.roulette');");
-        out.println("                        var $result = $('#result');");
-        out.println("                        var wrapW = $wrap.width();");
-        out.println("                        var d = 360 / itemSize;"); // 아이템 개수에 따라 각도 계산
-        out.println("                        for (var i = 1; i <= itemSize; i += 1) {");
-        out.println("                            var idx = i - 1;");
-        out.println("                            var rt = i * d + o.angleOffset;"); // 각도 오프셋 추가
-        out.println("                            var itemHTML = $('<div class=\"item\">');");
-        out.println("                            var labelHTML = '<p class=\"label\"><span class=\"text\">' + data[idx].text + '</span></p>';"); 
-        out.println("                            $roulette.append(itemHTML);");
-        out.println("                            $roulette.children('.item').eq(idx).append(labelHTML);");
-        out.println("                            $roulette.children('.item').eq(idx).css({");
-        out.println("                                'left': wrapW / 2,");
-        out.println("                                'top': -wrapW / 2,");
-        out.println("                                'transform': 'rotate(' + rt + 'deg)',");
-        out.println("                                'transform-origin': '0 100%'");
-        out.println("                            });");
+        out.println("        $(document).ready(function() {");
+        out.println("            if (" + menuList.size() + " >= 10) {");
+        out.println("                $('#btn-start').on('click', function() {");
+        out.println("                    var randomDegree = Math.floor(Math.random() * 360);");
+        out.println("                    $('#roulette').rotate({");
+        out.println("                        angle: 0,");
+        out.println("                        animateTo: randomDegree + 1800,");
+        out.println("                        duration: 5000,");
+        out.println("                        callback: function() {");
+        out.println("                            var selectedIndex = Math.floor((randomDegree % 360) / 36);");
+        out.println("                            $('#result').text('오늘의 점심은 ' + data[selectedIndex]);");
         out.println("                        }");
-        out.println("                        $btnStart.on('click', function() {");
-        out.println("                            var angle = Math.floor(Math.random() * 360);"); // 랜덤 각도
-        out.println("                            $roulette.rotate({");
-        out.println("                                angle: angle,");
-        out.println("                                animateTo: angle + 360 * 5,"); // 5바퀴 돌림
-        out.println("                                center: ['50%', '50%'],");
-        out.println("                                easing: $.easing.easeInOutElastic,");
-        out.println("                                callback: function() {");
-        out.println("                                    var selected = Math.floor((angle % 360) / d);"); // 선택된 아이템 계산
-        out.println("                                    $result.text('오늘 점심은 ' + data[selected].text);");
-        out.println("                                }");
-        out.println("                            });");
-        out.println("                        });");
         out.println("                    });");
-        out.println("                }");
-        out.println("            });");
-        out.println("            $('#roulette').roulette();");
-        out.println("        })(jQuery);");
+        out.println("                });");
+        out.println("            }");
+        out.println("        });");
         out.println("    </script>");
         out.println("</body>");
         out.println("</html>");
     }
 
     private String convertToJavaScriptArray(List<String> list) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < list.size(); i++) {
-            sb.append("{ text: '").append(list.get(i)).append("' }");
-            if (i < list.size() - 1) sb.append(", ");
-        }
-        sb.append("]");
-        return sb.toString();
+        return list.stream()
+                   .map(s -> "\"" + s.replace("\"", "\\\"") + "\"")
+                   .collect(Collectors.joining(",", "[", "]"));
+    }
+
+    private String getColorForSection(int index) {
+        // 색상 배열을 반환합니다.
+        String[] colors = {"#AEC6CF", "#FDFD96", "#77DD77", "#FDCB82", "#FFABAB", "#FFC3A0", "#FF677D", "#D4A5A5", "#C3D9E1", "#B9FBC0"};
+        return colors[index % colors.length];
     }
 }
