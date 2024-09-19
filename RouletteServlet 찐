@@ -67,12 +67,12 @@ public class RouletteServlet extends HttpServlet {
         out.println("        #menu-btn { display: block; margin: 20px auto; width: 150px; height: 40px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-align: center; line-height: 40px; }");
         out.println("        #error { text-align: center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #e74c3c; }"); // 오류 메시지 색상
 
-        // 화살표 스타일 추가
+        // 화살표 스타일 수정 - 고정된 위치로 설정
         out.println("        .arrow {");
         out.println("            position: absolute;");
         out.println("            top: 10px;");
         out.println("            left: 50%;");
-        out.println("            margin-left: -15px;");
+        out.println("            transform: translateX(-50%);");
         out.println("            width: 0;");
         out.println("            height: 0;");
         out.println("            border-left: 15px solid transparent;");
@@ -87,7 +87,7 @@ public class RouletteServlet extends HttpServlet {
         out.println("    <p class='title'>점메추</p>");
         out.println("    <div class='box-roulette' id='roulette'>");
 
-        // 얇은 화살표 추가
+        // 고정된 화살표 추가
         out.println("    <div class='arrow'></div>");
 
         if (menuList.size() >= 10) {
@@ -95,11 +95,10 @@ public class RouletteServlet extends HttpServlet {
             double anglePerSection = 360.0 / 10;
             for (int i = 0; i < 10; i++) {
                 double angle = i * anglePerSection;
-                // 텍스트가 각 섹션에 맞게 회전
-                double textRotation = -angle + 18; // 텍스트의 위치와 회전을 조정
 
+                // 텍스트가 각 섹션의 중앙에 오도록 조정
                 out.println("        <div class='section' style='transform: rotate(" + angle + "deg); background-color: " + getColorForSection(i) + ";'>");
-                out.println("            <span style='transform: rotate(" + textRotation + "deg);'>" + menuList.get(i) + "</span>");
+                out.println("            <span>" + menuList.get(i) + "</span>");
                 out.println("        </div>");
             }
         }
@@ -138,9 +137,8 @@ public class RouletteServlet extends HttpServlet {
         out.println("</html>");
     }
 
-    // 각 섹션에 사용할 배경색을 반환하는 메소드
     private String getColorForSection(int index) {
-        String[] colors = { "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50" };
+        String[] colors = {"#FFDDC1", "#FFABAB", "#FFC3A0", "#FF677D", "#D4A5A5", "#392F5A", "#31A2AC", "#61C0BF", "#6B4226", "#D9BF77"};
         return colors[index % colors.length];
     }
 }
