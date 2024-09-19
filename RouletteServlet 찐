@@ -66,11 +66,29 @@ public class RouletteServlet extends HttpServlet {
         out.println("        #btn-start { display: block; position: absolute; left: 50%; top: 50%; margin: -50px 0 0 -50px; width: 100px; height: 100px; font-weight: bold; background: #fff; border-radius: 50px; z-index: 9999; cursor: pointer; border: 2px solid #007bff; color: #007bff; }");
         out.println("        #menu-btn { display: block; margin: 20px auto; width: 150px; height: 40px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-align: center; line-height: 40px; }");
         out.println("        #error { text-align: center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #e74c3c; }"); // 오류 메시지 색상
+
+        // 화살표 스타일 추가
+        out.println("        .arrow {");
+        out.println("            position: absolute;");
+        out.println("            top: 10px;");
+        out.println("            left: 50%;");
+        out.println("            margin-left: -15px;");
+        out.println("            width: 0;");
+        out.println("            height: 0;");
+        out.println("            border-left: 15px solid transparent;");
+        out.println("            border-right: 15px solid transparent;");
+        out.println("            border-bottom: 30px solid red;");
+        out.println("            z-index: 10000;"); // 화살표가 가장 앞에 오도록 설정
+        out.println("        }");
+
         out.println("    </style>");
         out.println("</head>");
         out.println("<body>");
         out.println("    <p class='title'>점메추</p>");
         out.println("    <div class='box-roulette'>");
+
+        // 얇은 화살표 추가
+        out.println("    <div class='arrow'></div>");
 
         if (menuList.size() >= 10) {
             // 10개 구역을 정확히 등분하여 배치
@@ -120,15 +138,9 @@ public class RouletteServlet extends HttpServlet {
         out.println("</html>");
     }
 
-    private String convertToJavaScriptArray(List<String> list) {
-        return list.stream()
-                   .map(s -> "\"" + s.replace("\"", "\\\"") + "\"")
-                   .collect(Collectors.joining(",", "[", "]"));
-    }
-
+    // 각 섹션의 색상을 지정하는 함수
     private String getColorForSection(int index) {
-        // 색상 배열을 반환합니다.
-        String[] colors = {"#AEC6CF", "#FDFD96", "#77DD77", "#FDCB82", "#FFABAB", "#FFC3A0", "#FF677D", "#D4A5A5", "#C3D9E1", "#B9FBC0"};
+        String[] colors = {"#FFDDC1", "#FFABAB", "#FFC3A0", "#FF677D", "#D4A5A5", "#392F5A", "#31A2AC", "#61C0BF", "#6B4226", "#D9BF77"};
         return colors[index % colors.length];
     }
 }
