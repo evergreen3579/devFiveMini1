@@ -92,7 +92,7 @@ public class GameFourServlet extends HttpServlet {
         out.println("const $c = document.querySelector('canvas');");
         out.println("const ctx = $c.getContext('2d');");
         out.println("let product = " + convertToJavaScriptArray(lunches) + ";");
-        out.println("const colors = ['#ff9999', '#ffcc99', '#ffff99', '#ccff99', '#99ff99', '#99ccff', '#9999ff', '#cc99ff', '#ff99cc', '#ffcccc'];");
+        out.println("const colors = ['#d1495b', '#f79256', '#f9c74f', '#90be6d', '#43aa8b', '#577590', '#f94144', '#f3722c', '#f8961e', '#f9844a'];");
         out.println("const newMake = () => {");
         out.println("  const [cw, ch] = [$c.width / 2, $c.height / 2];");
         out.println("  const arc = Math.PI / (product.length / 2);");
